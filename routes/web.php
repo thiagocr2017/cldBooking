@@ -18,11 +18,16 @@ Route::get('/', function () {
     return view('welcome');
 });
 
-Route::controller(ClientController::class)->group(function(){
-    Route::get('/client', 'index')->name('client.index');
-    Route::get('/client/create', 'create')->name('client.create');
-    Route::get('client/{client}', 'show')->name('client.show');
-    Route::post('/client', 'store')->name('client.store');
-    Route::post('/client/{client}/edit', 'edit')->name('client.edit');
-    Route::post('/client/{client}', 'destroy')->name('client.destroy'); 
-});
+// Route::controller(ClientController::class)->group(function(){
+//     Route::get('/client', 'index')->name('client.index');
+//     Route::get('/client/create', 'create')->name('client.create');
+//     Route::get('client/{client}', 'show')->name('client.show');
+//     Route::get('/client/{client}/edit', 'edit')->name('client.edit');
+//     Route::post('/client', 'store')->name('client.store');
+//     Route::put('/client/{client}', 'update')->name('client.update');
+//     Route::delete('/client/{client}', 'destroy')->name('client.destroy');
+// });
+Route::resources([
+    'client' => ClientController::class,
+    // 'list' => ListController::class
+]);

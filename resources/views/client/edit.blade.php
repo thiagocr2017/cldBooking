@@ -29,31 +29,17 @@
                     A primeira e única escola de bartender com bar secreto do Morro de São Paulo...
                 </p>
 
-                <div class="mt-8 p-4 bg-white bg-gray-800 dark:bg-gray-800 overflow-hidden shadow rounded-lg text-gray-100">
-                    <p>Data da sua Reserva:  {{$booking->date}}</p>
-                    <div class="flex gap-4">
-                        <div class="flex flex-col w-full">
-                            <div>Nome: {{$client->name}} {{$client->lastname}}</div>
-                            <div>Ticket: {{$client->ticket}}</div>
-                            <div>Senha: <strong class="underline">{{$booking->keyword}}</strong></div>
-                            <div>Processo: {{$client->status_client}}</div>
-                        </div>
-                        <div class="flex flex-col w-1/2">
-                        {!! QrCode::size(120)->generate(route('client.show',[$client->id])) !!}
-                        </div>
-                    </div>
-                </div>
-                <div class="flex row pt-4 gap-4">
-                    <a href="{{route('client.edit', [$client->id])}}" class="bg-green-500 hover:bg-green-700 text-white font-bold py-2 px-4 border border-green-700 rounded">
-                        Editar
-                    </a>
-                    <form action="{{route('client.destroy', [$client->id])}}" method="post">
-                        @method('DELETE')
+                <div class="mt-8 bg-white bg-gray-800 dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+                    <p class="text-gray-100 p-2">Edite sua Informação:</p>
+                    <div>
+                        <form action="{{route('client.update', [$client->id])}}" method="post" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-2">
+                        @method('PUT')
                         @csrf
-                        <button onclick="return confirm('Está seguro que você quer tirar seu nome da lista?')"  class="bg-red-500 hover:bg-red-700 text-white font-bold py-2 px-4 border border-red-700 rounded">
-                            Eliminar
-                        </button>
-                    </form>
+                            <input value="{{$client->name}}" placeholder="Nome" autofocus minlength="3" type="text" name="name" id="name"  class="p-2">
+                            <input value="{{$client->lastname}}" placeholder="Sobrenome" minlength="3" type="text" name="lastname" id="lastname" class="p-2">
+                            <button type="submit" class="text-gray-200 bg-stone-700 hover:bg-stone-400 p-2">Editar</button>
+                        </form>
+                    </div>
                 </div>
 
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between text-gray-600 dark:text-gray-100">
@@ -70,9 +56,7 @@
                     </div>
 
                     <div class="ml-4 text-center text-sm sm:text-right sm:ml-0">
-                        <a href="{{route('client.create')}}" class="ml-1 underline">
-                            Novo Cadastro
-                        </a>
+                        Laravel v{{ Illuminate\Foundation\Application::VERSION }} (PHP v{{ PHP_VERSION }})
                     </div>
                 </div>
             </div>

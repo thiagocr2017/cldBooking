@@ -56,20 +56,26 @@ class ClientController extends Controller
                 //Enquanto a quantidade de clientes seja menor a da lista completa e o numero de ticket exista cria um novo numero. 
                 // $dayBooking->clients()->where('ticket', $ticket)->exists() == true
                 while ( $dayBooking->clients()->count() < $fullBooking && $dayBooking->clients()->where('ticket', $ticket)->exists() == true );
-                    // si un ticket novo, busca uma lista ativa para cadastrar o cliente 
+
+                // ticket novo criado, busca uma lista ativa para cadastrar o cliente 
                 $activeBooking = Booking::where('status_booking', '=', 1)->first();
-                // dd($activeBooking->id);
+                
+                // cria client novo
                 $client = Client::create([
                     'name' => $request->name,
                     'lastname' => $request-> lastname,
                     'status_client' => 'Listado',
                     'ticket' => $ticket
                 ]);
+
+                //relaciona cliente com a lista ativa
                 $client->bookings()->attach($activeBooking->id);
-                    //Mostra o ticket de entrada do cliente
+
+                //Mostra o ticket de entrada do cliente
                 return redirect()->route('client.show', ['client' => $client->id]);
 
             }else {
+                // A lista ativa esta cheia
                 return view('client.full');
             }
         }
@@ -99,6 +105,8 @@ class ClientController extends Controller
     public function edit(Client $client)
     {
         //
+        // dd($client);
+        return view('client.edit')->with(['client'=> $client]);
     }
 
     /**
@@ -110,7 +118,14 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
-        //
+        //editar cliente na lista ativa
+        $client->name = $request->input('name');
+        $client->lastname = $request->input('lastname');
+        $client->update();
+
+        //Mostra o ticket de entrada do cliente
+        return redirect()->route('client.show', ['client' => $client->id]);
+
     }
 
     /**
@@ -121,6 +136,9 @@ class ClientController extends Controller
      */
     public function destroy(Client $client)
     {
-        //
+        //eliminar registro
+        $client->destroy($client->id);
+        return view('client.create');
+
     }
 }
