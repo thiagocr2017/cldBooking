@@ -18,40 +18,28 @@
     </head>
     <body class="antialiased">
         <div class="relative flex items-top justify-center min-h-screen bg-amber-400 dark:bg-gradient-to-b from-amber-500 to-orange-700 sm:items-center py-4 sm:pt-0">
-            @if (Route::has('login'))
-                <div class="hidden fixed top-0 right-0 px-6 py-4 sm:block">
-                    @auth
-                        <a href="{{ url('/home') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Home</a>
-                    @else
-                        <a href="{{ route('login') }}" class="text-sm text-gray-700 dark:text-gray-500 underline">Log in</a>
-
-                        @if (Route::has('register'))
-                            <a href="{{ route('register') }}" class="ml-4 text-sm text-gray-700 dark:text-gray-500 underline">Register</a>
-                        @endif
-                    @endauth
-                </div>
-            @endif
 
             <div class="max-w-6xl mx-auto sm:px-6 lg:px-8 px-4">
                 <div class="flex pb-8 justify-center sm:justify-start sm:pt-0 w-auto">
-                    <img src="logo.jpg" alt="logo clandestino" class="rounded-full w-1/3 ">
+                    <img src="../logo.jpg" alt="logo clandestino" class="rounded-full w-1/3 ">
                 </div>
                 
                 <h1 class="flex justify-center pt-8 sm:justify-start sm:pt-0 text-3xl text-white" >Clandestino Bar School</h1>
                 <p class="flex justify-center pt-8 sm:justify-start sm:pt-0 text-md text-white">
                     A primeira e única escola de bartender com bar secreto do Morro de São Paulo...
                 </p>
-                
-                <!-- Conteudo -->
-                <div class="mt-8 p-4 bg-white bg-gray-800 dark:bg-gray-800 overflow-hidden shadow rounded-lg text-gray-100">
-                    <p>Cadastre seu nome completo na lista de entrada</p>
-                    <div>
-                        
-                       {{-- <a href="{{route('client.create')}}">Cadastrar</a> --}}
 
+                <div class="mt-8 bg-white bg-gray-800 dark:bg-gray-800 overflow-hidden shadow rounded-lg">
+                    <p class="text-gray-100 p-2">Cadastre seu nome completo na lista de entrada</p>
+                    <div>
+                        <form action="{{route('client.store')}}" method="post" class="grid grid-cols-1 md:grid-cols-3 gap-4 p-2">
+                        @csrf
+                            <input   placeholder="Nome" autofocus minlength="3" type="text" name="name" id="name"  class="p-2">
+                            <input   placeholder="Sobrenome" minlength="3" type="text" name="lastname" id="lastname" class="p-2">
+                            <button type="submit" class="text-gray-200 bg-stone-700 hover:bg-stone-400 p-2">Cadastrar</button>
+                        </form>
                     </div>
                 </div>
-                <!-- Fim Conteudo -->
 
                 <div class="flex justify-center mt-4 sm:items-center sm:justify-between text-gray-600 dark:text-gray-100">
                     <div class="text-center text-sm sm:text-left">
