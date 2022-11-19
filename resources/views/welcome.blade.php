@@ -44,10 +44,10 @@
                 
                 <!-- Conteudo -->
                 <div class="mt-8 p-4 bg-white bg-gray-800 dark:bg-gray-800 overflow-hidden shadow rounded-lg text-gray-100">
-                    <p>Cadastre seu nome completo na lista de entrada</p>
-                    <div>
+                    <p class="text-center sm:text-start">Cadastre seu nome completo na lista:</p>
+                    <div class="flex w-full justify-center sm:justify-end">
                         
-                       {{-- <a href="{{route('client.create')}}">Cadastrar</a> --}}
+                       <a href="{{route('client.create')}}" class="bg-stone-500 hover:bg-stone-700 text-white font-bold py-2 px-4 border border-stone-700 rounded">Cadastrar</a>
 
                     </div>
                 </div>

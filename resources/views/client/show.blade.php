@@ -30,7 +30,7 @@
                 </p>
 
                 <div class="mt-8 p-4 bg-white bg-gray-800 dark:bg-gray-800 overflow-hidden shadow rounded-lg text-gray-100">
-                    <p>Seu Ticket na Lista do Dia {{$list->date}}</p>
+                    <p>Seu Ticket na Lista do Dia {{$booking->date}}</p>
                     <div class="flex gap-4">
                         <div class="flex flex-col w-full">
                             <h1>Nome: {{$client->name}} {{$client->lastname}}</h1>
