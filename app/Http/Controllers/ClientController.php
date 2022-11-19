@@ -38,7 +38,18 @@ class ClientController extends Controller
      */
     public function store(Request $request)
     {
-        //
+        //Validação da informação
+        $validatedData = $request->validate([
+            'name' => 'required|regex:/^[\pL\s\-]+$/u|min:3',
+            'lastname' => 'required|regex:/^[\pL\s\-]+$/u|min:3',
+        ], [
+            'name.required' => 'Digite seu primeiro nome',
+            'name.regex' => 'Seu nome não pode conter numeros',
+            'name.min' => 'Seu nome deve ter aomenos 3 letras',
+            'lastname.required' => 'Digite seu sobrenome',
+            'lastname.regex' => 'Seu sobrenome não pode conter numeros',
+            'lastname.min' => 'Seu sobrenome deve ter aomenos 3 letras',
+        ]);
         // Tamanho de las listas por dia.
         $min = 1;
         $max = 5;
@@ -61,9 +72,10 @@ class ClientController extends Controller
                 $activeBooking = Booking::where('status_booking', '=', 1)->first();
                 
                 // cria client novo
+
                 $client = Client::create([
-                    'name' => $request->name,
-                    'lastname' => $request-> lastname,
+                    'name' => $validatedData['name'],
+                    'lastname' => $validatedData['lastname'],
                     'status_client' => 'Listado',
                     'ticket' => $ticket
                 ]);
@@ -72,7 +84,7 @@ class ClientController extends Controller
                 $client->bookings()->attach($activeBooking->id);
 
                 //Mostra o ticket de entrada do cliente
-                return redirect()->route('client.show', ['client' => $client->id]);
+                return redirect()->route('client.show', ['client' => $client->id])->with('success', 'Seu nome foi cadastrado na lista.');
 
             }else {
                 // A lista ativa esta cheia
@@ -118,13 +130,24 @@ class ClientController extends Controller
      */
     public function update(Request $request, Client $client)
     {
+        $validatedData = $request->validate([
+            'name' => 'required|regex:/^[\pL\s\-]+$/u|min:3',
+            'lastname' => 'required|regex:/^[\pL\s\-]+$/u|min:3',
+        ], [
+            'name.required' => 'Digite seu primeiro nome',
+            'name.regex' => 'Seu nome não pode conter numeros',
+            'name.min' => 'Seu nome deve ter aomenos 3 letras',
+            'lastname.required' => 'Digite seu sobrenome',
+            'lastname.regex' => 'Seu sobrenome não pode conter numeros',
+            'lastname.min' => 'Seu sobrenome deve ter aomenos 3 letras',
+        ]);
         //editar cliente na lista ativa
         $client->name = $request->input('name');
         $client->lastname = $request->input('lastname');
         $client->update();
 
         //Mostra o ticket de entrada do cliente
-        return redirect()->route('client.show', ['client' => $client->id]);
+        return redirect()->route('client.show', ['client' => $client->id])->with('success', 'Seu nome foi editado com sucesso na lista.');
 
     }
 
